@@ -1,36 +1,42 @@
-#Create a program which generates a blog template in HTML format. The template should include a title, a heading, an image, and a paragraph of text. The image should be displayed on the left side of the paragraph, and the paragraph should wrap around the image. The template should also have a background color and text color that can be customized.
-#Use an api-key which will generate specific template based on what you need and it will talk you through how to use it
+import customtkinter as ctk
+from tkinter import messagebox
+from openai import OpenAI
+from dotenv import load_dotenv
+import os
+import json
 
-def questions():
-    print("Welcome to the Blog Template Creator!")
-    user_need = input("What type of blog template do you need? (e.g., travel, food, tech): ")
-    background_color = input("Enter the background color (e.g., #ffffff for white): ")
-    text_color = input("Enter the text color (e.g., #000000 for black): ")
-    return user_need, background_color, text_color
+load_dotenv()
 
-def generate_template(user_need, background_color, text_color):
-    if user_need.lower() == "travel":
-        # Travel blog needs more images and a more detailed description of the destinations. It should also include a section for travel tips and recommendations.
-        title = "Travel Blog"
-        heading = "Exploring the World"
-        paragraph = "Join me as I explore the most beautiful destinations around the globe. From bustling cities to serene landscapes, I'll share my experiences and tips for fellow travelers."
-    elif user_need.lower() == "food":
-        # Food blog needs more images and a more detailed description of the food and recipes. It should also include a section for restaurant reviews and cooking tips.
-        title = "Food Blog"
-        heading = "Delicious Recipes and Culinary Adventures"
-        paragraph = "Discover mouth-watering recipes and culinary adventures from around the world. I'll share my favorite dishes, cooking tips, and restaurant reviews."
-    elif user_need.lower() == "tech":
-        # More updated with text and images but also needs a section to include news articles.
-        title = "Tech Blog"
-        heading = "Latest Tech Trends and Innovations"
-        paragraph = "Stay updated with the latest tech trends and innovations. I'll cover everything from gadgets and software to industry news and insights."
-    else:
-        title = "My Blog"
-        heading = "Welcome to My Blog"
-        paragraph = "This is a place where I share my thoughts, experiences, and insights on various topics. Stay tuned for interesting content!"
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-file_name = "template.html"
-with open(file_name, "w") as f:
+ctk.set_appearance_mode("System")
+ctk.set_default_color_theme("blue")
+
+root = ctk.CTk()
+root.title("Blog Template Creator")
+root.geometry("400x500")
+
+ctk.CTkLabel(root, text="Blog type (travel, food, tech):").pack(pady=(20, 2))
+entry_type = ctk.CTkEntry(root, width=240, font=("Arial", 12), corner_radius=6, border_width=1, border_color="#cccccc", placeholder_text="Enter blog type")
+entry_type.pack()
+
+ctk.CTkLabel(root, text="Background color (e.g. #ffffff):").pack(pady=(10, 2))
+entry_bg = ctk.CTkEntry(root, width=240, font=("Arial", 12), corner_radius=6, border_width=1, border_color="#cccccc", placeholder_text="Enter background color")
+entry_bg.insert(0, "#ffffff")
+entry_bg.pack()
+
+ctk.CTkLabel(root, text="Text color (e.g. #000000):").pack(pady=(10, 2))
+entry_text = ctk.CTkEntry(root, width=240, font=("Arial", 12), corner_radius=6, border_width=1, border_color="#cccccc", placeholder_text="Enter text color")
+entry_text.insert(0, "#000000")
+entry_text.pack()
+
+ctk.CTkLabel(root, text="File Name:").pack(pady=(10, 2))
+entry_file_name = ctk.CTkEntry(root, width=240, font=("Arial", 12), corner_radius=6, border_width=1, border_color="#cccccc", placeholder_text="Enter file name")
+entry_file_name.insert(0, "template.html")
+entry_file_name.pack()
+
+def generate_template(title, heading, paragraph, background_color, text_color, file_name):
+    with open(file_name, "w") as f:
         f.write(f"""<html>
     <head>
         <title>{title}</title>
@@ -40,3 +46,37 @@ with open(file_name, "w") as f:
         <p>{paragraph}</p>
     </body>
 </html>""")
+    messagebox.showinfo("Done", f"Template saved as {file_name}")
+
+def generate_code():
+    user_need = entry_type.get().strip()
+    background_color = entry_bg.get().strip()
+    text_color = entry_text.get().strip()
+    file_name = entry_file_name.get().strip()
+
+    if user_need.lower() not in ("travel", "food", "tech"):
+        messagebox.showerror("Error", "Invalid blog type. Please enter 'travel', 'food', or 'tech'.")
+        return
+
+    prompt = (
+        f"Generate content for a {user_need} blog HTML template. "
+        "Return a JSON object with exactly these keys: 'title', 'heading', 'paragraph'. "
+        "The paragraph should be 2-3 sentences relevant to the blog type."
+    )
+
+    try:
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": "You are a blog content generator. Always respond with valid JSON only, no markdown."},
+                {"role": "user", "content": prompt}
+            ],
+            response_format={"type": "json_object"}
+        )
+        data = json.loads(response.choices[0].message.content)
+        generate_template(data["title"], data["heading"], data["paragraph"], background_color, text_color, file_name)
+    except Exception as e:
+        messagebox.showerror("API Error", str(e))
+
+ctk.CTkButton(root, text="Generate Template", command=generate_code, corner_radius=8).pack(pady=20)
+root.mainloop()
