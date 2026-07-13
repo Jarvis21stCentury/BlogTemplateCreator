@@ -1,31 +1,126 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Rise of AI: Transforming the Tech Landscape</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: #ffffff; color: #000000; line-height: 1.7; }
 
-<html>
-    <head>
-        <style>
-            .side-image {
-            width: 700px;
-            height: auto;
-            }
-            .flex-container {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            }
-        </style>
-    </head>
-    <body style="background-color: rgb(70, 80, 83); color: rgb(182, 182, 182);">
+        /* NAV */
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 18px 48px; border-bottom: 1px solid #e5e7eb; background: #ffffff; position: sticky; top: 0; z-index: 100; }
+        .nav-brand { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: #000000; text-decoration: none; }
+        .nav-links a { margin-left: 24px; text-decoration: none; color: #000000; opacity: 0.7; font-size: 0.9rem; }
+        .nav-links a:hover { opacity: 1; }
 
-        <h1 style="text-align: center;">My Blog</h1>
+        /* HERO */
+        .hero { max-width: 860px; margin: 48px auto 0; padding: 0 24px; text-align: center; }
+        .hero-img { width: 100%; height: 420px; background: #e5e7eb; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; color: #9ca3af; border: 2px dashed #d1d5db; margin-bottom: 32px; }
+        .hero h1 { font-family: 'Playfair Display', serif; font-size: 2.6rem; line-height: 1.2; margin-bottom: 14px; }
+        .subtitle { font-size: 1.1rem; opacity: 0.7; margin-bottom: 20px; }
+        .post-meta { display: flex; align-items: center; justify-content: center; gap: 16px; font-size: 0.85rem; opacity: 0.6; margin-bottom: 40px; }
+        .tag { display: inline-block; background: #f3f4f6; color: #374151; border-radius: 20px; padding: 3px 12px; font-size: 0.78rem; margin: 0 2px; }
 
-        <h2 style="margin: 10px;">Heading</h2>
+        /* LAYOUT */
+        .content-grid { max-width: 1100px; margin: 0 auto; padding: 0 24px 64px; display: grid; grid-template-columns: 1fr 300px; gap: 56px; align-items: start; }
 
-        <div class="flex-container">
-            <p style="margin: 20px;">Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.</p>
-            <img src="https://via.placeholder.com/200" alt="Side Image" class="side-image" style="margin: 20px;">
+        /* ARTICLE */
+        article p { margin-bottom: 1.4rem; font-size: 1.05rem; }
+        article h2 { font-family: 'Playfair Display', serif; font-size: 1.6rem; margin: 36px 0 14px; }
+        .img-block { margin: 32px 0; }
+        .img-placeholder { width: 100%; height: 320px; background: #e5e7eb; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.88rem; color: #9ca3af; border: 2px dashed #d1d5db; }
+        .img-caption { text-align: center; font-size: 0.82rem; opacity: 0.55; margin-top: 8px; font-style: italic; }
+        blockquote { border-left: 4px solid #000000; padding: 14px 24px; margin: 32px 0; font-style: italic; font-size: 1.15rem; opacity: 0.8; background: rgba(0,0,0,0.03); border-radius: 0 8px 8px 0; }
+
+        /* SIDEBAR */
+        aside { position: sticky; top: 80px; }
+        .widget { border: 1px solid #e5e7eb; border-radius: 10px; padding: 20px; margin-bottom: 24px; }
+        .widget h3 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.5; margin-bottom: 14px; }
+        .author-avatar { width: 64px; height: 64px; border-radius: 50%; background: #e5e7eb; border: 2px dashed #d1d5db; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; color: #9ca3af; margin-bottom: 10px; }
+        .author-name { font-weight: 600; margin-bottom: 6px; }
+        .author-bio { font-size: 0.85rem; opacity: 0.65; }
+        .tags-widget { display: flex; flex-wrap: wrap; gap: 6px; }
+        .related-item { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+        .related-thumb { width: 56px; height: 56px; border-radius: 6px; background: #e5e7eb; border: 2px dashed #d1d5db; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; color: #9ca3af; }
+        .related-title { font-size: 0.88rem; font-weight: 600; line-height: 1.3; }
+
+        /* FOOTER */
+        footer { text-align: center; padding: 32px 24px; border-top: 1px solid #e5e7eb; font-size: 0.85rem; opacity: 0.5; }
+    </style>
+</head>
+<body>
+
+<section class="hero">
+    <div class="hero-img">[ Hero Image &mdash; replace with &lt;img src="hero.jpg" alt="..."&gt; ]</div>
+    <h1>The Rise of AI: Transforming the Tech Landscape</h1>
+    <p class="subtitle">Explore how artificial intelligence is reshaping industries and our daily lives.</p>
+    <div class="post-meta">
+        <span>By Jamie Collins</span>
+        <span>&middot;</span>
+        <span>July 2025</span>
+        <span>&middot;</span>
+        <div><span class="tag">AI</span> <span class="tag">Technology</span> <span class="tag">Innovation</span> <span class="tag">Future</span></div>
+    </div>
+</section>
+
+<div class="content-grid">
+    <article>
+        <p>Artificial Intelligence (AI) has rapidly evolved from a theoretical concept into a driving force across various sectors. As companies harness its capabilities, we are witnessing unparalleled advancements that enhance efficiency and creativity. This post delves into the current trends and future implications of AI in technology.</p>
+
+        <div class="img-block">
+            <div class="img-placeholder">[ Image &mdash; replace with &lt;img src="image1.jpg" alt="..."&gt; ]</div>
+            <p class="img-caption">AI algorithms at work in modern healthcare settings.</p>
         </div>
 
-    </body>
+        <h2>AI's Impact on Various Industries</h2>
+        <p>From healthcare to finance, AI technologies are empowering organizations to unlock unprecedented levels of efficiency and insight. In healthcare, for instance, AI algorithms are aiding in early disease detection and personalizing treatment plans. Meanwhile, the finance sector utilizes machine learning to analyze vast amounts of data, enhancing decision-making processes.</p>
 
+        <blockquote>&ldquo;AI is not just a tool; it's becoming an integral part of our decision-making ecosystem.&rdquo;</blockquote>
+
+        <div class="img-block">
+            <div class="img-placeholder">[ Image &mdash; replace with &lt;img src="image2.jpg" alt="..."&gt; ]</div>
+            <p class="img-caption">AI-powered analytics transforming the finance industry.</p>
+        </div>
+
+        <p>As we stand on the brink of an AI revolution, it's crucial to embrace the potential it holds for our future. The journey of integration may have challenges, but the rewards are undeniable.</p>
+    </article>
+
+    <aside>
+        <div class="widget">
+            <h3>About the Author</h3>
+            <div class="author-avatar">Photo</div>
+            <div class="author-name">Jamie Collins</div>
+            <p class="author-bio">Replace this with a short bio about the author. A sentence or two works great here.</p>
+        </div>
+
+        <div class="widget">
+            <h3>Tags</h3>
+            <div class="tags-widget"><span class="tag">AI</span> <span class="tag">Technology</span> <span class="tag">Innovation</span> <span class="tag">Future</span></div>
+        </div>
+
+        <div class="widget">
+            <h3>Related Posts</h3>
+            <div class="related-item">
+                <div class="related-thumb">img</div>
+                <span class="related-title">Related Post Title One</span>
+            </div>
+            <div class="related-item">
+                <div class="related-thumb">img</div>
+                <span class="related-title">Related Post Title Two</span>
+            </div>
+            <div class="related-item">
+                <div class="related-thumb">img</div>
+                <span class="related-title">Related Post Title Three</span>
+            </div>
+        </div>
+    </aside>
+</div>
+
+<footer>
+    <p>&copy; 2025 My Blog &mdash; All rights reserved.</p>
+</footer>
+
+</body>
 </html>
-
