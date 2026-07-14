@@ -1,5 +1,5 @@
 import customtkinter as ctk
-from tkinter import messagebox
+from tkinter import messagebox, colorchooser
 from openai import OpenAI
 from dotenv import load_dotenv
 import os
@@ -14,28 +14,64 @@ ctk.set_default_color_theme("blue")
 
 root = ctk.CTk()
 root.title("Blog Template Creator")
-root.geometry("480x580")
+root.geometry("520x600")
 root.resizable(False, False)
 
-header = ctk.CTkFrame(root, fg_color=("gray90", "gray15"), corner_radius=0, height=80)
+header = ctk.CTkFrame(root, fg_color=("gray90", "gray15"), corner_radius=0, height=88)
 header.pack(fill="x")
 header.pack_propagate(False)
 
-ctk.CTkLabel(
-    header,
-    text="Blog Template Creator",
-    font=ctk.CTkFont(family="Serif", size=22, weight="bold"),
-).pack(side="left", padx=24, pady=(18, 4), anchor="sw")
+header_text = ctk.CTkFrame(header, fg_color="transparent")
+header_text.pack(side="left", padx=24, fill="y")
 
 ctk.CTkLabel(
-    header,
-    text="Powered by GPT-4o mini",
+    header_text,
+    text="Blog Template Creator",
+    font=ctk.CTkFont(family="Georgia", size=22, weight="bold"),
+    anchor="w",
+).pack(anchor="w", pady=(20, 2))
+
+ctk.CTkLabel(
+    header_text,
+    text="AI-powered HTML templates in seconds",
     font=ctk.CTkFont(family="Arial", size=11),
     text_color=("gray50", "gray60"),
-).pack(side="left", padx=0, pady=(0, 6), anchor="sw")
+    anchor="w",
+).pack(anchor="w")
 
-card = ctk.CTkFrame(root, corner_radius=12, fg_color=("white", "gray17"))
-card.pack(fill="both", expand=True, padx=24, pady=20)
+badge_frame = ctk.CTkFrame(header, fg_color=("gray80", "gray22"), corner_radius=8)
+badge_frame.pack(side="right", padx=20)
+ctk.CTkLabel(
+    badge_frame,
+    text="GPT-4o mini",
+    font=ctk.CTkFont(family="Arial", size=10, weight="bold"),
+    text_color=("gray40", "gray65"),
+    padx=10,
+    pady=5,
+).pack()
+
+card = ctk.CTkFrame(
+    root,
+    corner_radius=14,
+    fg_color=("white", "gray17"),
+    border_width=1,
+    border_color=("gray85", "gray25"),
+)
+card.pack(fill="both", expand=True, padx=20, pady=(14, 18))
+
+def section_header(parent, title):
+    row = ctk.CTkFrame(parent, fg_color="transparent")
+    row.pack(fill="x", padx=20, pady=(16, 8))
+    ctk.CTkLabel(
+        row,
+        text=title,
+        font=ctk.CTkFont(family="Arial", size=10, weight="bold"),
+        text_color=("gray45", "gray55"),
+        anchor="w",
+    ).pack(side="left")
+    ctk.CTkFrame(row, height=1, fg_color=("gray82", "gray30"), corner_radius=0).pack(
+        side="left", fill="x", expand=True, padx=(10, 0), pady=1
+    )
 
 def labeled_entry(parent, label, placeholder, default=""):
     ctk.CTkLabel(
@@ -43,11 +79,10 @@ def labeled_entry(parent, label, placeholder, default=""):
         text=label,
         font=ctk.CTkFont(family="Arial", size=12, weight="bold"),
         anchor="w",
-    ).pack(fill="x", padx=20, pady=(14, 2))
+    ).pack(fill="x", padx=20, pady=(0, 3))
     entry = ctk.CTkEntry(
         parent,
-        width=400,
-        height=36,
+        height=38,
         font=ctk.CTkFont(family="Arial", size=13),
         corner_radius=8,
         border_width=1,
@@ -55,13 +90,76 @@ def labeled_entry(parent, label, placeholder, default=""):
     )
     if default:
         entry.insert(0, default)
-    entry.pack(padx=20)
+    entry.pack(fill="x", padx=20, pady=(0, 2))
     return entry
 
+def color_entry(parent, label, default, col):
+    frame = ctk.CTkFrame(parent, fg_color="transparent")
+    frame.grid(row=0, column=col, sticky="ew", padx=(0, 6) if col == 0 else (6, 0))
+
+    ctk.CTkLabel(
+        frame,
+        text=label,
+        font=ctk.CTkFont(family="Arial", size=12, weight="bold"),
+        anchor="w",
+    ).pack(fill="x", pady=(0, 3))
+
+    row = ctk.CTkFrame(frame, fg_color="transparent")
+    row.pack(fill="x")
+
+    swatch = ctk.CTkFrame(
+        row,
+        width=38,
+        height=38,
+        corner_radius=8,
+        fg_color=default,
+        border_width=1,
+        border_color=("gray75", "gray35"),
+        cursor="pointinghand",
+    )
+    swatch.pack(side="left", padx=(0, 6))
+    swatch.pack_propagate(False)
+
+    entry = ctk.CTkEntry(
+        row,
+        height=38,
+        font=ctk.CTkFont(family="Arial", size=13),
+        corner_radius=8,
+        border_width=1,
+    )
+    entry.insert(0, default)
+    entry.pack(side="left", fill="x", expand=True)
+
+    def update_swatch(*_):
+        try:
+            swatch.configure(fg_color=entry.get().strip())
+        except Exception:
+            pass
+
+    def pick_color(*_):
+        _, hex_color = colorchooser.askcolor(color=entry.get().strip() or default, title=f"Choose {label}")
+        if hex_color:
+            entry.delete(0, "end")
+            entry.insert(0, hex_color)
+            update_swatch()
+
+    entry.bind("<KeyRelease>", update_swatch)
+    swatch.bind("<Button-1>", pick_color)
+    return entry
+
+section_header(card, "CONTENT")
 entry_type = labeled_entry(card, "Blog Type", "e.g. travel, food, tech, fashion…")
-entry_bg   = labeled_entry(card, "Background Color", "#ffffff", "#ffffff")
-entry_text = labeled_entry(card, "Text Color", "#000000", "#000000")
-entry_file = labeled_entry(card, "Output File Name", "template.html", "template.html")
+
+section_header(card, "APPEARANCE")
+colors_row = ctk.CTkFrame(card, fg_color="transparent")
+colors_row.pack(fill="x", padx=20, pady=(0, 2))
+colors_row.columnconfigure(0, weight=1)
+colors_row.columnconfigure(1, weight=1)
+entry_bg   = color_entry(colors_row, "Background Color", "#ffffff", 0)
+entry_text = color_entry(colors_row, "Text Color",       "#000000", 1)
+
+section_header(card, "OUTPUT")
+entry_file = labeled_entry(card, "File Name", "template.html", "template.html")
 
 status_var = ctk.StringVar(value="")
 status_label = ctk.CTkLabel(
@@ -70,20 +168,20 @@ status_label = ctk.CTkLabel(
     font=ctk.CTkFont(family="Arial", size=11),
     text_color=("gray50", "gray60"),
 )
-status_label.pack(pady=(12, 0))
+status_label.pack(pady=(10, 0))
 
 def generate_template(data, background_color, text_color, file_name):
-    title         = data.get("title", "Blog Post Title")
-    subtitle      = data.get("subtitle", "A compelling subtitle for this post")
-    author        = data.get("author", "Author Name")
-    tags          = data.get("tags", [])
-    intro         = data.get("intro", "")
-    section_heading = data.get("section_heading", "")
-    section_body  = data.get("section_body", "")
-    quote         = data.get("quote", "")
-    conclusion    = data.get("conclusion", "")
-    img1_caption  = data.get("image1_caption", "Add a caption for this image")
-    img2_caption  = data.get("image2_caption", "Add a caption for this image")
+    title            = data.get("title", "Blog Post Title")
+    subtitle         = data.get("subtitle", "A compelling subtitle for this post")
+    author           = data.get("author", "Author Name")
+    tags             = data.get("tags", [])
+    intro            = data.get("intro", "")
+    section_heading  = data.get("section_heading", "")
+    section_body     = data.get("section_body", "")
+    quote            = data.get("quote", "")
+    conclusion       = data.get("conclusion", "")
+    img1_caption     = data.get("image1_caption", "Add a caption for this image")
+    img2_caption     = data.get("image2_caption", "Add a caption for this image")
 
     tags_html = " ".join(f'<span class="tag">{t}</span>' for t in tags)
 
@@ -212,11 +310,12 @@ def generate_template(data, background_color, text_color, file_name):
         f.write(html)
     messagebox.showinfo("Done", f"Template saved as {file_name}")
 
+
 def generate_code():
-    user_need = entry_type.get().strip()
+    user_need        = entry_type.get().strip()
     background_color = entry_bg.get().strip()
-    text_color = entry_text.get().strip()
-    file_name = entry_file.get().strip()
+    text_color       = entry_text.get().strip()
+    file_name        = entry_file.get().strip()
 
     if not user_need:
         messagebox.showerror("Error", "Please enter a blog type.")
@@ -224,6 +323,7 @@ def generate_code():
 
     btn.configure(state="disabled", text="Generating…")
     status_var.set("Calling GPT-4o mini…")
+    status_label.configure(text_color=("gray50", "gray60"))
     root.update_idletasks()
 
     prompt = (
@@ -254,21 +354,25 @@ def generate_code():
         )
         data = json.loads(response.choices[0].message.content)
         generate_template(data, background_color, text_color, file_name)
-        status_var.set(f"Saved to {file_name}")
+        status_var.set(f"✓ Saved to {file_name}")
+        status_label.configure(text_color=("#15803d", "#4ade80"))
     except Exception as e:
         messagebox.showerror("API Error", str(e))
-        status_var.set("Error — see dialog")
+        status_var.set("✗ Error — see dialog")
+        status_label.configure(text_color=("#dc2626", "#f87171"))
     finally:
         btn.configure(state="normal", text="Generate Template")
+
 
 btn = ctk.CTkButton(
     card,
     text="Generate Template",
     command=generate_code,
-    height=42,
+    height=44,
     corner_radius=10,
     font=ctk.CTkFont(family="Arial", size=14, weight="bold"),
+    hover_color=("#1f4fd1", "#4c7bf0"),
 )
-btn.pack(padx=20, pady=(8, 20), fill="x")
+btn.pack(padx=20, pady=(10, 20), fill="x")
 
 root.mainloop()
