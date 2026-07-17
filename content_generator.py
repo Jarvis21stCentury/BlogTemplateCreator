@@ -6,7 +6,7 @@ from openai import OpenAI
 
 load_dotenv()
 
-client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+_client = None
 
 PROMPT_TEMPLATE = (
     "Generate content for a {blog_type} blog post template. "
@@ -26,8 +26,18 @@ PROMPT_TEMPLATE = (
 )
 
 
+def _get_client():
+    global _client
+    if _client is None:
+        api_key = os.environ.get("OPENAI_API_KEY")
+        if not api_key:
+            raise RuntimeError("OPENAI_API_KEY is not set")
+        _client = OpenAI(api_key=api_key)
+    return _client
+
+
 def generate_content(blog_type):
-    response = client.chat.completions.create(
+    response = _get_client().chat.completions.create(
         model="gpt-4o-mini",
         messages=[
             {"role": "system", "content": "You are a blog content generator. Always respond with valid JSON only, no markdown."},
