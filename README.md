@@ -21,3 +21,5 @@ It is aimed toward bloggers, marketers, and anyone who needs to create a post qu
 | `api/index.py` | Flask app — form UI, live preview, and `/api/generate` endpoint, deployable to Vercel |
 
 **Dependencies:** OpenAI (content generation), python-dotenv (API key loading), customtkinter (desktop UI), flask (web UI).
+
+For AI use, I have used it to assist me in my journey of learning how to use HTML, the module CustomTkinter, and even used it to push my code into github. For this README, I have written all of this by myself, but used AI to structure it so it is easier to convey the information.
