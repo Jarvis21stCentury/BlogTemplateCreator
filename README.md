@@ -8,18 +8,16 @@ It is aimed toward bloggers, marketers, and anyone who needs to create a post qu
 
 1. You pick a niche and a color palette.
 2. content_generator.py sends a prompt to OpenAI and gets back a JSON file which has a title, subtitle, author, intro, sections, heading/body, conclusion, and two image place holders and captions.
-3. template_builder.py puts that JSON into aa HTML template with CSS, so the output is a downloadable file.
-4. You get a finished HTML file, ready to open in a browser, drop images into, and publish.
+3. template_builder.py puts that JSON into aa HTML template, so the output is a downloadable file.
+4. You get a finished HTML file, ready to open in a browser, to drop images into, and publish.
 
 ## Modules
 
-| Module | Role |
-|---|---|
-| `content_generator.py` | Calls the OpenAI API to generate a structured JSON blog |
-| `template_builder.py` | Changes that JSON into a HTML file with CSS |
-| `main.py` | Desktop GUI (`customtkinter`) — form, color picker, and generation history |
-| `api/index.py` | Flask app — form UI, live preview, and `/api/generate` endpoint, deployable to Vercel |
+content_generator.py - Calls the OpenAI API to generate a structured JSON blog
+template_builder.py - Changes the JSON into a HTML file
+main.py - Desktop GUI using customtkinter — form, color picker, and generation history |
+index.py - Flask app — form UI, live preview, and endpoint, deployable to Vercel |
 
-**Dependencies:** OpenAI (content generation), python-dotenv (API key loading), customtkinter (desktop UI), flask (web UI).
+**Dependencies:** OpenAI, python-dotenv, customtkinter, flask
 
-For AI use, I have used it to assist me in my journey of learning how to use HTML, the module CustomTkinter, and even used it to push my code into github. For this README, I have written all of this by myself, but used AI to structure it so it is easier to convey the information.
+For AI use, I have used it to assist me in my journey of learning how to use HTML, the module CustomTkinter, and even used it to push my code into github.
