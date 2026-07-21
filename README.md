@@ -14,9 +14,12 @@ It is aimed toward bloggers, marketers, and anyone who needs to create a post qu
 ## Modules
 
 content_generator.py - Calls the OpenAI API to generate a structured JSON blog
+
 template_builder.py - Changes the JSON into a HTML file
-main.py - Desktop GUI using customtkinter — form, color picker, and generation history |
-index.py - Flask app — form UI, live preview, and endpoint, deployable to Vercel |
+
+main.py - Desktop GUI using customtkinter — form, color picker, and generation history
+
+index.py - Flask app — form UI, live preview, and endpoint, deployable to Vercel
 
 **Dependencies:** OpenAI, python-dotenv, customtkinter, flask
 
