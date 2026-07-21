@@ -4,14 +4,14 @@ The blog template creator takesn your niche, such as "travel" or "tech", and tur
 
 It is aimed toward bloggers, marketers, and anyone who needs to create a post quickly, and this tool allows for that by genereating a structure which then the user can replace with real images and content.
 
-## How it works
+# How it works
 
 1. You pick a niche and a color palette.
 2. content_generator.py sends a prompt to OpenAI and gets back a JSON file which has a title, subtitle, author, intro, sections, heading/body, conclusion, and two image place holders and captions.
 3. template_builder.py puts that JSON into aa HTML template, so the output is a downloadable file.
 4. You get a finished HTML file, ready to open in a browser, to drop images into, and publish.
 
-## Modules
+# Modules
 
 content_generator.py - Calls the OpenAI API to generate a structured JSON blog
 template_builder.py - Changes the JSON into a HTML file
