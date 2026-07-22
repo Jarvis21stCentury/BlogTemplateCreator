@@ -1,26 +1,23 @@
-# Blog Template Creator
+Blog Template Creator
 
-The blog template creator takesn your niche, such as "travel" or "tech", and turns it into a HTML blog template that the user can then edit and customize as per needed. This allows for beginner bloggers and journalists to get blogging rather spending hours creating the structure and understanding waht will best convey their message.
+The blog template creator is a simple program that takes the topic of your blog, such as travel or tech, and then turns it into a HTML template. This can then be editted and customized as per needed by the user. And this efficiently gives bloggers something to work with instead of them spending hours creating the structure of the blog, allowing them to focus on the content instead.
 
-It is aimed toward bloggers, marketers, and anyone who needs to create a post quickly, and this tool allows for that by genereating a structure which then the user can replace with real images and content.
+This program was made to assist bloggers, marketers, and anyone who would like to create a blog quickly.
 
-## How it works
+How it works
 
-1. You pick a niche and a color palette.
-2. content_generator.py sends a prompt to OpenAI and gets back a JSON file which has a title, subtitle, author, intro, sections, heading/body, conclusion, and two image place holders and captions.
-3. template_builder.py puts that JSON into aa HTML template, so the output is a downloadable file.
-4. You get a finished HTML file, ready to open in a browser, to drop images into, and publish.
+You pick a topic and the colors you would like.
+Then a prompt is sent to OpenAI to get back a JSON file.
+After that the JSON is turned into an HTML template, so the user can dowload the template.
+So in the end the user gets an HTML template, ready to use.
 
-## Modules
+The Different Files
 
-content_generator.py - Calls the OpenAI API to generate a structured JSON blog
-
-template_builder.py - Changes the JSON into a HTML file
-
-main.py - Desktop GUI using customtkinter — form, color picker, and generation history
-
-index.py - Flask app — form UI, live preview, and endpoint, deployable to Vercel
-
-**Dependencies:** OpenAI, python-dotenv, customtkinter, flask
+The content_generator.py calls the OpenAI API to generate a JSON blog.
+The template_builder.py changes the JSON into HTML.
+The main.py is the desktop GUI which was made using customtkinter.
+The index.py is the Flask app so that it can be hosted on Vercel.
 
 For AI use, I have used it to assist me in my journey of learning how to use HTML, the module CustomTkinter, and even used it to push my code into github.
+
+So for my AI usage, I only used AI to help me learn how to use HTMl, the module customtkinter, along with using to efficiently push my code into github. One last thing I used it for was to create the Flask app because what I created was only python and can only be used on local computer but I didn't really know how to make it into a full on web application so I needed assistance. I believe I used AI beneath the 30% mark.
