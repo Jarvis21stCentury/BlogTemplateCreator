@@ -18,6 +18,4 @@ The template_builder.py changes the JSON into HTML.
 The main.py is the desktop GUI which was made using customtkinter.
 The index.py is the Flask app so that it can be hosted on Vercel.
 
-For AI use, I have used it to assist me in my journey of learning how to use HTML, the module CustomTkinter, and even used it to push my code into github.
-
 So for my AI usage, I only used AI to help me learn how to use HTMl, the module customtkinter, along with using to efficiently push my code into github. One last thing I used it for was to create the Flask app because what I created was only python and can only be used on local computer but I didn't really know how to make it into a full on web application so I needed assistance. I believe I used AI beneath the 30% mark.
